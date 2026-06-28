@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Codix - المحتوى العلمي</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@400;700;900&display=swap" rel="stylesheet" />
+    <style>
+        /* ===== إعادة ضبط ===== */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Cairo', sans-serif;
+            background-color: #1A3D7C;
+            color: #ffffff;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 2rem 1.5rem;
+        }
+
+        .container {
+            max-width: 900px;
+            width: 100%;
+        }
+
+        /* ===== شعار Codix (واضح، Vector، بدون تباعد سالب) ===== */
+        .logo {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            margin-bottom: 3rem;
+            user-select: none;
+        }
+
+        .logo-text {
+            font-family: 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            font-size: 5rem;
+            font-weight: 900;
+            letter-spacing: 0px;
+            /* تباعد طبيعي بين الحروف */
+            color: #ffffff;
+            line-height: 1.2;
+            display: inline-flex;
+            align-items: center;
+            gap: 0;
+            text-rendering: geometricPrecision;
+            -webkit-font-smoothing: antialiased;
+        }
+
+        .logo-text .char {
+            color: #ffffff;
+        }
+
+        .logo-text .char-i,
+        .logo-text .char-x {
+            color: #6CB4EE;
+        }
+
+        /* ===== الأقسام العمودية ===== */
+        .section {
+            background: rgba(255, 255, 255, 0.08);
+            backdrop-filter: blur(4px);
+            -webkit-backdrop-filter: blur(4px);
+            border-radius: 32px;
+            padding: 2rem 2rem 2.2rem;
+            margin-bottom: 2.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            box-shadow: 0 12px 30px rgba(0, 0, 0, 0.25);
+            transition: transform 0.25s ease, box-shadow 0.3s ease;
+        }
+
+        .section:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.35);
+            background: rgba(255, 255, 255, 0.12);
+            border-color: rgba(108, 180, 238, 0.4);
+        }
+
+        .section-header {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            border-bottom: 3px solid #6CB4EE;
+            padding-bottom: 0.75rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .section-header h2 {
+            font-size: 2.2rem;
+            font-weight: 900;
+            color: #fff;
+            letter-spacing: 0.5px;
+        }
+
+        .section-header .icon {
+            font-size: 2.4rem;
+            color: #6CB4EE;
+        }
+
+        .section-content {
+            font-size: 1.05rem;
+            line-height: 1.9;
+            color: rgba(255, 255, 255, 0.93);
+        }
+
+        .section-content p {
+            margin-bottom: 1.2rem;
+        }
+
+        .section-content ul,
+        .section-content ol {
+            padding-right: 2rem;
+            margin: 0.8rem 0 1.2rem;
+        }
+
+        .section-content ul li,
+        .section-content ol li {
+            margin-bottom: 0.5rem;
+            padding-right: 0.3rem;
+        }
+
+        .section-content ul li::marker {
+            color: #6CB4EE;
+        }
+
+        .section-content strong {
+            color: #fff;
+            font-weight: 700;
+        }
+
+        .section-content .highlight {
+            color: #6CB4EE;
+            font-weight: 700;
+        }
+
+        .btn-toggle {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: #fff;
+            padding: 0.5rem 1.8rem;
+            border-radius: 60px;
+            font-size: 0.95rem;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.25s ease;
+            font-family: 'Cairo', sans-serif;
+            margin-top: 1rem;
+            display: inline-block;
+        }
+
+        .btn-toggle:hover {
+            background: #6CB4EE;
+            color: #1A3D7C;
+            border-color: #6CB4EE;
+        }
+
+        .extra-content {
+            margin-top: 1.5rem;
+            padding-top: 1.5rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.12);
+            display: none;
+            font-size: 1rem;
+            line-height: 1.8;
+            color: rgba(255, 255, 255, 0.88);
+        }
+
+        .extra-content.show {
+            display: block;
+            animation: fadeIn 0.4s ease;
+        }
+
+        @keyframes fadeIn {
+            from {
+                opacity: 0;
+                transform: translateY(8px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .footer {
+            margin-top: 2.5rem;
+            text-align: center;
+            font-size: 0.9rem;
+            opacity: 0.6;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            padding-top: 2rem;
+            width: 100%;
+        }
+
+        @media (max-width: 650px) {
+            .logo-text {
+                font-size: 3.8rem;
+            }
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            .section {
+                padding: 1.5rem 1.2rem;
+            }
+            body {
+                padding: 1.2rem 0.8rem;
+            }
+        }
+
+        @media (max-width: 450px) {
+            .logo-text {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+
+        <!-- ===== شعار CODIX (مع C و X في مكانهما الطبيعي) ===== -->
+        <header class="logo">
+            <div class="logo-text">
+                <h1>CODIX</h1>
+            </div>
+        </header>
+
+        <!-- ===== القسم الأول: منهج البرمجة الشامل ===== -->
+        <section class="section" id="programming-section">
+            <div class="section-header">
+                <span class="icon">🧠</span>
+                <h2>البرمجة من الصفر – المنهج الشامل</h2>
+            </div>
+            <div class="section-content">
+                <p>
+                    هذا المنهج البرمجي الضخم موجه إلى المبتدئين وحتى غير المبتدئين، وهو دورة مجانية وشاملة يمكن من خلالها لأي شخص البدء في دراسة علوم الكمبيوتر بدون حاجة إلى خبرة برمجية سابقة. يبدأ المحتوى من تحت الصفر، حيث ستتعلم البرمجة باستخدام منصة <strong>Scratch</strong> التفاعلية التي تشبه الألعاب الكرتونية، مما يساعد المبتدئين على استيعاب مبادئ البرمجة مثل الشروط، الحلقات التكرارية، والمتغيرات بشكل مبسط وممتع.
+                </p>
+                <p>
+                    يهدف هذا المسار إلى تعليم <strong>التفكير المنطقي</strong> و<strong>حل المشكلات</strong> بكفاءة، وتزويدك بالمهارات الأساسية التي تحتاجها لتصبح مبرمجاً محترفاً.
+                </p>
+
+                <p><strong>📚 محتوى المنهج بالكامل:</strong></p>
+                <ul>
+                    <li>ماهية علم الحاسوب ومجالاته</li>
+                    <li>الخوارزميات (مقدمة)</li>
+                    <li>لغة الآلة وكيف تعمل لغات البرمجة</li>
+                    <li>أسهل لغة برمجة: <span class="highlight">Scratch</span></li>
+                    <li>لغة <span class="highlight">C</span> (المؤشرات، إدارة الذاكرة)</li>
+                    <li>لغة <span class="highlight">Python</span> (برمجة عالية المستوى)</li>
+                    <li>لغة <span class="highlight">JavaScript</span> (تطوير الواجهات التفاعلية)</li>
+                    <li><span class="highlight">HTML & CSS</span> (هيكلة وتصميم صفحات الويب)</li>
+                    <li>بروتوكول <span class="highlight">HTTP</span> وكيف تعمل الشبكات</li>
+                    <li><span class="highlight">Machine Learning</span> (تعلم الآلة)</li>
+                    <li><span class="highlight">Software Engineering</span> (هندسة البرمجيات)</li>
+                    <li><span class="highlight">Security</span> (أمن المعلومات)</li>
+                    <li>الخوارزميات المتقدمة (Algorithms)</li>
+                    <li><span class="highlight">Data Structures</span> (هياكل البيانات)</li>
+                </ul>
+                <p>
+                    <strong>باختصار، هذا المنهج يبدأ معك من الصفر ويوصلك إلى مستوى يجعلك مؤهلاً لسوق العمل بإذن الله.</strong>
+                </p>
+
+                <button class="btn-toggle" data-target="programming-extra">📖 تفاصيل إضافية عن المنهج</button>
+                <div class="extra-content" id="programming-extra">
+                    <p>
+                        يتكون المحتوى من <strong>أكثر من 80 فيديو</strong> تغطي جميع المحاور السابقة بأسلوب شيق وعملي، مع تطبيقات عملية وتمارين على كل موضوع.
+                    </p>
+                    <p>
+                        يُنصح بالممارسة اليومية وحل جميع التمارين والتحديات التي تأتي مع كل درس، والانضمام إلى مجموعات المذاكرة لتبادل الخبرات. هذا المسار لا يقتصر على تعلم لغات البرمجة فقط، بل يهدف إلى بناء <strong>عقلية المبرمج</strong> القادرة على التعلم الذاتي والتكيف مع أي تقنية جديدة.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== القسم الثاني: GitHub ===== -->
+        <section class="section" id="github-section">
+            <div class="section-header">
+                <span class="icon">🐙</span>
+                <h2>GitHub – منصة التعاون والإصدارات</h2>
+            </div>
+            <div class="section-content">
+                <p>
+                    <strong>GitHub</strong> هي منصة سحابية تعتمد على نظام <strong>Git</strong> لإدارة الإصدارات، وتُستخدم لتخزين ومشاركة الكود المصدري.
+                    تعتبر GitHub أداة أساسية في أي مشروع برمجي، سواء كان فردياً أو جماعياً.
+                </p>
+                <p><strong>الميزات الأساسية:</strong></p>
+                <ul>
+                    <li><span class="highlight">المستودعات (Repositories)</span> – تخزين الكود مع تاريخ كامل للتغييرات.</li>
+                    <li><span class="highlight">الفروع (Branches)</span> – تطوير ميزات جديدة بشكل منفصل ثم دمجها.</li>
+                    <li><span class="highlight">طلبات السحب (Pull Requests)</span> – مراجعة الكود ومناقشته قبل الدمج.</li>
+                    <li><span class="highlight">GitHub Actions</span> – أتمتة عمليات التكامل والنشر المستمر (CI/CD).</li>
+                    <li><span class="highlight">GitHub Pages</span> – نشر المواقع الثابتة مجاناً.</li>
+                    <li><span class="highlight">إدارة المشكلات (Issues)</span> – تتبع الأخطاء والمهام، مع لوحات كانبان.</li>
+                </ul>
+                <p>
+                    يتيح GitHub أيضاً التعاون عبر <strong>المناقشات (Discussions)</strong>، و<strong>الويكي (Wiki)</strong> لتوثيق المشاريع.
+                    كما يدعم التكامل مع العديد من الأدوات مثل Slack و Jira و VS Code.
+                </p>
+                <p>
+                    بالنسبة للمطورين، يُعتبر GitHub بمثابة السيرة الذاتية الحية، حيث يمكنهم عرض مشاريعهم ومساهماتهم في مشاريع مفتوحة المصدر.
+                </p>
+
+                <button class="btn-toggle" data-target="github-extra">⚙️ تفاصيل إضافية</button>
+                <div class="extra-content" id="github-extra">
+                    <p>
+                        يمكن استخدام GitHub مع سطر الأوامر (CLI) أو عبر تطبيق سطح المكتب. كما يوفر GitHub Mobile لتتبع المشاريع أثناء التنقل.
+                        من المهم تعلم أوامر Git الأساسية مثل <code>clone, add, commit, push, pull, branch, merge</code>.
+                    </p>
+                    <p>
+                        GitHub يحتوي أيضاً على <strong>GitHub Copilot</strong> (مساعد ذكاء اصطناعي للبرمجة) و<strong>GitHub Codespaces</strong> (بيئات تطوير سحابية).
+                        المنصة مجانية للاستخدام الشخصي والمشاريع مفتوحة المصدر، مع خطط مدفوعة للفرق والشركات.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- ===== القسم الثالث: Soft Skills ===== -->
+        <section class="section" id="soft-section">
+            <div class="section-header">
+                <span class="icon">🤝</span>
+                <h2>المهارات الناعمة (Soft Skills)</h2>
+            </div>
+            <div class="section-content">
+                <p>
+                    <strong>المهارات الناعمة</strong> هي مجموعة من الصفات الشخصية والمهارات الاجتماعية التي تساعد في التعامل بفعالية مع الآخرين،
+                    وتعد مكملاً ضرورياً للمهارات التقنية في أي مجال، وخاصة في صناعة البرمجيات.
+                </p>
+                <p><strong>أهم المهارات الناعمة للمطورين:</strong></p>
+                <ul>
+                    <li><span class="highlight">التواصل الفعال</span> – القدرة على التعبير عن الأفكار بوضوح، سواء كتابةً أو شفهياً.</li>
+                    <li><span class="highlight">العمل الجماعي</span> – التعاون مع الزملاء، مشاركة المعرفة، ودعم الفريق.</li>
+                    <li><span class="highlight">حل المشكلات</span> – التفكير النقدي والإبداعي لإيجاد حلول مناسبة.</li>
+                    <li><span class="highlight">إدارة الوقت</span> – تنظيم المهام، تحديد الأولويات، والالتزام بالمواعيد النهائية.</li>
+                    <li><span class="highlight">التكيف والمرونة</span> – تقبل التغييرات، تعلم تقنيات جديدة، والتعامل مع الضغوط.</li>
+                    <li><span class="highlight">التعاطف والذكاء العاطفي</span> – فهم مشاعر الآخرين وبناء علاقات إيجابية.</li>
+                </ul>
+                <p>
+                    يخطئ الكثيرون في الاعتقاد أن المهارات التقنية وحدها كافية للنجاح، لكن المهارات الناعمة هي التي تصنع الفارق في بيئات العمل الحديثة،
+                    وتساعد في القيادة، التفاوض، وحل النزاعات.
+                </p>
+                <p>
+                    يمكن تطوير هذه المهارات من خلال الممارسة اليومية، حضور ورش العمل، قراءة الكتب المتخصصة، والاستفادة من التغذية الراجعة.
+                </p>
+
+                <button class="btn-toggle" data-target="soft-extra">🌟 تفاصيل إضافية</button>
+                <div class="extra-content" id="soft-extra">
+                    <p>
+                        من الأمثلة العملية: القدرة على تقديم عرض تقديمي مقنع، كتابة تقارير واضحة، أو حتى إدارة اجتماعات فعالة.
+                        كما أن الاستماع النشط يعد من أهم ركائز التواصل الناجح.
+                    </p>
+                    <p>
+                        في المقابلات الشخصية، يتم تقييم المهارات الناعمة بنفس القدر الذي تُقيَّم به المهارات التقنية.
+                        شركات كبرى مثل Google و Microsoft تولي اهتماماً كبيراً لهذه الجوانب في عمليات التوظيف.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <footer class="footer">
+            <span>Codix — المحتوى العلمي الشامل للمطورين 🚀</span>
+        </footer>
+
+    </div>
+
+    <script>
+        (function() {
+            'use strict';
+
+            const buttons = document.querySelectorAll('.btn-toggle');
+
+            buttons.forEach(btn => {
+                btn.addEventListener('click', function(e) {
+                    e.stopPropagation();
+                    const targetId = this.dataset.target;
+                    if (!targetId) return;
+                    const targetDiv = document.getElementById(targetId);
+                    if (!targetDiv) return;
+
+                    targetDiv.classList.toggle('show');
+
+                    if (targetDiv.classList.contains('show')) {
+                        this.textContent = '🔽 إخفاء';
+                    } else {
+                        if (this.closest('#programming-section')) {
+                            this.textContent = '📖 تفاصيل إضافية عن المنهج';
+                        } else if (this.closest('#github-section')) {
+                            this.textContent = '⚙️ تفاصيل إضافية';
+                        } else if (this.closest('#soft-section')) {
+                            this.textContent = '🌟 تفاصيل إضافية';
+                        } else {
+                            this.textContent = 'اعرف أكثر';
+                        }
+                    }
+                });
+            });
+
+            console.log('Codix – شعار مصحح ومحتوى علمي خالص');
+        })();
+    </script>
+
+</body>
+</html>
